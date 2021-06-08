@@ -13,6 +13,8 @@ target/
 .springBeans
 .sts4-cache
 
+src/main/webapp/WEB-INF/classes
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

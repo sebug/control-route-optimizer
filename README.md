@@ -8,3 +8,4 @@ are okay. Simplified constraints:
 - Each address at a time can be dispatched to one of the teams available
 - Minimize driving time (I intend using some maps API to get that)
 
+Based heavily on https://auth0.com/blog/developing-jsf-applications-with-spring-boot/
