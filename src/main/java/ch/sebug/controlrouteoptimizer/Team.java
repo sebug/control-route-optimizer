@@ -13,7 +13,7 @@ import javax.persistence.Id;
 public class Team  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
