@@ -10,19 +10,15 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class Team {
+public class Team  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    protected Team() {
+    public Team() {
 
-    }
-
-    public Team(String name) {
-        this.name = name;
     }
 }
