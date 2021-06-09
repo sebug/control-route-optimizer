@@ -17,19 +17,19 @@
                     <f:selectItems value="#{routeRequestController.shelters}" var="shelter" itemLabel="#{shelter.name}"
                         itemValue="#{shelter}" />
                         <p:column>
-                            <h:outputText value="#{shelter.name}" />
+                            <h:outputText value="#{s.name}" />
                             <f:facet name="header">Name</f:facet>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{shelter.street}" />
+                            <h:outputText value="#{s.street}" />
                             <f:facet name="header">Street</f:facet>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{shelter.zip}" />
+                            <h:outputText value="#{s.zip}" />
                             <f:facet name="header">Zip Code</f:facet>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{shelter.city}" />
+                            <h:outputText value="#{s.city}" />
                             <f:facet name="header">City</f:facet>
                         </p:column>
 
