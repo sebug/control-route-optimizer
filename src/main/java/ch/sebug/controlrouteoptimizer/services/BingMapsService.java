@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
+import ch.sebug.controlrouteoptimizer.models.BingMapsResource;
 import ch.sebug.controlrouteoptimizer.models.BingMapsResponse;
 import ch.sebug.controlrouteoptimizer.models.MapResult;
 import ch.sebug.controlrouteoptimizer.models.RouteRequest;
@@ -32,22 +33,24 @@ public class BingMapsService implements MapService {
             return null;
         }
         MapResult result = new MapResult();
-        BingMapsResponse fromResponse = getAddress(r.getFromShelter());
-        BingMapsResponse toResponse = getAddress(r.getToShelter());
+        BingMapsResource fromResource = getAddress(r.getFromShelter());
+        BingMapsResource toResource = getAddress(r.getToShelter());
         
-        System.out.println(fromResponse);
-        System.out.println(toResponse);
+        System.out.println(fromResource);
+        System.out.println(toResource);
 
         return result;
     }
 
-    private BingMapsResponse getAddress(Shelter s) {
+    private BingMapsResource getAddress(Shelter s) {
         Mono<BingMapsResponse> response = this.webClient.get().uri("/REST/v1/Locations?countryRegion={countryRegion}" +
          "&locality={locality}&postalCode={postalCode}&addressLine={addressLine}" +
          "&key={key}",
          s.getCountry(), s.getCity(), s.getZip(), s.getStreet(), bingMapsKey).retrieve()
          .bodyToMono(BingMapsResponse.class);
 
-         return response.block();
+         BingMapsResponse result = response.block();
+
+         return result.getResourceSets().get(0).getResources().get(0);
     }
 }
