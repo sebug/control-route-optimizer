@@ -47,7 +47,7 @@ public class RouteRequestController {
         shelters = shelterRepository.findAll();
     }
 
-    public String calculateRoute() {
+    public void calculateRoute() {
         if (fromShelter != null) {
             routeRequest.setFromShelterId(fromShelter.getId());
         }
@@ -56,7 +56,6 @@ public class RouteRequestController {
         }
         MapResult mapResult = mapService.CalculateRoute(routeRequest);
         System.out.println(mapResult.getLink());
-        return "/shelter-list.xhtml?faces-redirect=true";
     }
 
     public RouteRequest getRouteRequest() {
