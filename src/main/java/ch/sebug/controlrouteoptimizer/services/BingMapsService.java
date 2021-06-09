@@ -49,6 +49,13 @@ public class BingMapsService implements MapService {
             .queryParam("key", bingMapsKey)
             .build().toString();
 
+            link = UriComponentsBuilder.fromUriString(baseUrl)
+            .path("/REST/v1/Imagery/Map/Road/Routes/Driving")
+            .queryParam("waypoint.1", fromResource.getPoint().getCoordinates().get(0) + "," + fromResource.getPoint().getCoordinates().get(1))
+            .queryParam("waypoint.2", toResource.getPoint().getCoordinates().get(0) + "," + toResource.getPoint().getCoordinates().get(1))
+            .queryParam("key", bingMapsKey)
+            .build().toString();
+
             result.setLink(link);
         }
 
