@@ -1,4 +1,4 @@
-package ch.sebug.controlrouteoptimizer;
+package ch.sebug.controlrouteoptimizer.controllers;
 
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.RequestAction;
@@ -8,6 +8,9 @@ import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import ch.sebug.controlrouteoptimizer.models.Shelter;
+import ch.sebug.controlrouteoptimizer.repositories.ShelterRepository;
 
 import java.util.List;
 

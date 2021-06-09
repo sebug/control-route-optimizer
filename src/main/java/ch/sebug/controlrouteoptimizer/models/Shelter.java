@@ -1,4 +1,4 @@
-package ch.sebug.controlrouteoptimizer;
+package ch.sebug.controlrouteoptimizer.models;
 
 import lombok.Data;
 
