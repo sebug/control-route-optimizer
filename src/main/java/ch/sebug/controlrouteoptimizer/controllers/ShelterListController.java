@@ -5,7 +5,6 @@ import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +18,12 @@ import java.util.List;
 @ELBeanName(value = "shelterList")
 @Join(path = "/shelterList", to="/shelter-list.jsf")
 public class ShelterListController {
-    @Autowired
-    private ShelterRepository shelterRepository;
+
+    private final ShelterRepository shelterRepository;
+
+    public ShelterListController(ShelterRepository shelterRepository) {
+        this.shelterRepository = shelterRepository;
+    }
 
     private List<Shelter> shelters;
 
