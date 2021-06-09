@@ -9,3 +9,5 @@ are okay. Simplified constraints:
 - Minimize driving time (I intend using some maps API to get that)
 
 Based heavily on https://auth0.com/blog/developing-jsf-applications-with-spring-boot/
+
+You'll need a Bing Maps key, to be stored in the environment variable CONTROL_ROUTE_OPTIMIZER_BINGMAPS_KEY

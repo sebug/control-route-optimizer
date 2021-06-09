@@ -1,5 +1,6 @@
 package ch.sebug.controlrouteoptimizer.services;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -10,7 +11,11 @@ import ch.sebug.controlrouteoptimizer.models.RouteRequest;
 public class BingMapsService implements MapService {
     private final WebClient webClient;
 
-    public BingMapsService() {
+    private String bingMapsKey;
+
+    public BingMapsService(@Value("${bingmaps.key}") String bingMapsKey) {
+        this.bingMapsKey = bingMapsKey;
+        System.out.println("Bing maps key is " + bingMapsKey);
         this.webClient = WebClient.builder()
             .baseUrl("https://dev.virtualearth.net")
             .build();
