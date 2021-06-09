@@ -21,14 +21,14 @@ public class ControlRouteOptimizerApplication {
 	}
 
 	@Bean
-	public ServletRegistrationBean servletRegistrationBean() {
+	public ServletRegistrationBean<?> servletRegistrationBean() {
 		FacesServlet servlet = new FacesServlet();
-		return new ServletRegistrationBean(servlet, "*.jsf");
+		return new ServletRegistrationBean<FacesServlet>(servlet, "*.jsf");
 	}
 
 	@Bean
-	public FilterRegistrationBean rewriteFilter() {
-		FilterRegistrationBean rwFilter = new FilterRegistrationBean(new RewriteFilter());
+	public FilterRegistrationBean<?> rewriteFilter() {
+		FilterRegistrationBean<RewriteFilter> rwFilter = new FilterRegistrationBean<RewriteFilter>(new RewriteFilter());
 		rwFilter.setDispatcherTypes(EnumSet.of(DispatcherType.FORWARD, DispatcherType.REQUEST,
 		DispatcherType.ASYNC, DispatcherType.ERROR));
 		rwFilter.addUrlPatterns("/*");
