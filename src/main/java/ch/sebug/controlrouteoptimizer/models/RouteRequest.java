@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RouteRequest {
-    private Long fromShelterId;
-    private Long toShelterId;
+    private Shelter fromShelter;
+    private Shelter toShelter;
 }

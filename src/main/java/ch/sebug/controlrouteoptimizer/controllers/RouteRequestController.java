@@ -49,10 +49,10 @@ public class RouteRequestController {
 
     public void calculateRoute() {
         if (fromShelter != null) {
-            routeRequest.setFromShelterId(fromShelter.getId());
+            routeRequest.setFromShelter(fromShelter);
         }
         if (toShelter != null) {
-            routeRequest.setToShelterId(toShelter.getId());
+            routeRequest.setToShelter(toShelter);
         }
         MapResult mapResult = mapService.CalculateRoute(routeRequest);
         System.out.println(mapResult.getLink());
