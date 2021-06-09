@@ -10,6 +10,7 @@ import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import ch.sebug.controlrouteoptimizer.ShelterConverter;
 import ch.sebug.controlrouteoptimizer.models.RouteRequest;
 import ch.sebug.controlrouteoptimizer.models.Shelter;
 import ch.sebug.controlrouteoptimizer.repositories.ShelterRepository;
@@ -28,6 +29,8 @@ public class RouteRequestController {
 
     private RouteRequest routeRequest = new RouteRequest();
 
+    private Shelter fromShelter;
+
     @Deferred
     @RequestAction
     @IgnorePostback
@@ -41,5 +44,22 @@ public class RouteRequestController {
 
     public RouteRequest getRouteRequest() {
         return routeRequest;
+    }
+
+    public Shelter getFromShelter() {
+        return fromShelter;
+    }
+
+    public void setFromShelter(Shelter fromShelter) {
+        this.fromShelter = fromShelter;
+    }
+
+    public List<Shelter> getShelters() {
+        System.out.println("Shelter size: " + shelters.size());
+        return shelters;
+    }
+
+    public ShelterConverter getShelterConverter() {
+        return new ShelterConverter(shelters);
     }
 }
