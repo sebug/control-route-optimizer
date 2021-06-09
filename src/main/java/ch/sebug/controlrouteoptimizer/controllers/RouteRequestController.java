@@ -31,6 +31,8 @@ public class RouteRequestController {
 
     private Shelter fromShelter;
 
+    private Shelter toShelter;
+
     @Deferred
     @RequestAction
     @IgnorePostback
@@ -52,6 +54,14 @@ public class RouteRequestController {
 
     public void setFromShelter(Shelter fromShelter) {
         this.fromShelter = fromShelter;
+    }
+
+    public Shelter getToShelter() {
+        return toShelter;
+    }
+
+    public void setToShelter(Shelter toShelter) {
+        this.toShelter = toShelter;
     }
 
     public List<Shelter> getShelters() {
