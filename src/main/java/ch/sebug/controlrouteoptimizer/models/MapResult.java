@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class MapResult {
-    private String link;
+    private String imageLink;
 }

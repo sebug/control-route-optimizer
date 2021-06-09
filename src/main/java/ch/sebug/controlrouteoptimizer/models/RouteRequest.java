@@ -6,4 +6,5 @@ import lombok.Data;
 public class RouteRequest {
     private Shelter fromShelter;
     private Shelter toShelter;
+    private String imageLink;
 }

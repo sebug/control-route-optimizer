@@ -55,7 +55,9 @@ public class RouteRequestController {
             routeRequest.setToShelter(toShelter);
         }
         MapResult mapResult = mapService.CalculateRoute(routeRequest);
-        System.out.println(mapResult.getLink());
+        if (mapResult != null) {
+            routeRequest.setImageLink(mapResult.getImageLink());
+        }
     }
 
     public RouteRequest getRouteRequest() {
