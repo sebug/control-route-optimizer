@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
+import ch.sebug.controlrouteoptimizer.models.BingMapsResponse;
 import ch.sebug.controlrouteoptimizer.models.MapResult;
 import ch.sebug.controlrouteoptimizer.models.RouteRequest;
 import ch.sebug.controlrouteoptimizer.models.Shelter;
@@ -32,17 +33,14 @@ public class BingMapsService implements MapService {
         }
         MapResult result = new MapResult();
         Shelter f = r.getFromShelter();
-        Mono<String> response = this.webClient.get().uri("/REST/v1/Locations?countryRegion={countryRegion}" +
+        Mono<BingMapsResponse> response = this.webClient.get().uri("/REST/v1/Locations?countryRegion={countryRegion}" +
          "&locality={locality}&postalCode={postalCode}&addressLine={addressLine}" +
          "&key={key}",
          f.getCountry(), f.getCity(), f.getZip(), f.getStreet(), bingMapsKey).retrieve()
-         .bodyToMono(String.class);
+         .bodyToMono(BingMapsResponse.class);
 
          System.out.println(response.block());
 
-        System.out.println(this.webClient);
         return result;
     }
-    
-
 }
