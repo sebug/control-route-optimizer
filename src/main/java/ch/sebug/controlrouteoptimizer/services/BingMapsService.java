@@ -32,15 +32,22 @@ public class BingMapsService implements MapService {
             return null;
         }
         MapResult result = new MapResult();
-        Shelter f = r.getFromShelter();
+        BingMapsResponse fromResponse = getAddress(r.getFromShelter());
+        BingMapsResponse toResponse = getAddress(r.getToShelter());
+        
+        System.out.println(fromResponse);
+        System.out.println(toResponse);
+
+        return result;
+    }
+
+    private BingMapsResponse getAddress(Shelter s) {
         Mono<BingMapsResponse> response = this.webClient.get().uri("/REST/v1/Locations?countryRegion={countryRegion}" +
          "&locality={locality}&postalCode={postalCode}&addressLine={addressLine}" +
          "&key={key}",
-         f.getCountry(), f.getCity(), f.getZip(), f.getStreet(), bingMapsKey).retrieve()
+         s.getCountry(), s.getCity(), s.getZip(), s.getStreet(), bingMapsKey).retrieve()
          .bodyToMono(BingMapsResponse.class);
 
-         System.out.println(response.block());
-
-        return result;
+         return response.block();
     }
 }
