@@ -11,19 +11,26 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import ch.sebug.controlrouteoptimizer.ShelterConverter;
+import ch.sebug.controlrouteoptimizer.models.MapResult;
 import ch.sebug.controlrouteoptimizer.models.RouteRequest;
 import ch.sebug.controlrouteoptimizer.models.Shelter;
 import ch.sebug.controlrouteoptimizer.repositories.ShelterRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import ch.sebug.controlrouteoptimizer.services.MapService;
 
 @Scope(value = "session")
 @Component(value = "routeRequestController")
 @ELBeanName(value = "routeRequestController")
 @Join(path = "/routeRequest", to = "/routeRequest-form.jsf")
 public class RouteRequestController {
-    @Autowired
-    private ShelterRepository shelterRepository;
+
+    private final ShelterRepository shelterRepository;
+    private final MapService mapService;
+
+    public RouteRequestController(ShelterRepository shelterRepository,
+    MapService mapService) {
+        this.shelterRepository = shelterRepository;
+        this.mapService = mapService;
+    }
 
     private List<Shelter> shelters;
 
@@ -41,6 +48,14 @@ public class RouteRequestController {
     }
 
     public String calculateRoute() {
+        if (fromShelter != null) {
+            routeRequest.setFromShelterId(fromShelter.getId());
+        }
+        if (toShelter != null) {
+            routeRequest.setToShelterId(toShelter.getId());
+        }
+        MapResult mapResult = mapService.CalculateRoute(routeRequest);
+        System.out.println(mapResult.getLink());
         return "/shelter-list.xhtml?faces-redirect=true";
     }
 
