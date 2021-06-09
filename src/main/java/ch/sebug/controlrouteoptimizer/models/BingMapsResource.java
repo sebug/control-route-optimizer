@@ -6,4 +6,5 @@ import lombok.Data;
 public class BingMapsResource {
     private String name;
     private String confidence;
+    private BingMapsPoint point;
 }
