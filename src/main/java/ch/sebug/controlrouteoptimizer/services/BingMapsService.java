@@ -3,7 +3,7 @@ package ch.sebug.controlrouteoptimizer.services;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import ch.sebug.controlrouteoptimizer.models.BingMapsResource;
 import ch.sebug.controlrouteoptimizer.models.BingMapsResponse;
@@ -18,11 +18,13 @@ public class BingMapsService implements MapService {
 
     private String bingMapsKey;
 
+    private String baseUrl = "https://dev.virtualearth.net";
+
     public BingMapsService(@Value("${bingmaps.key}") String bingMapsKey) {
         this.bingMapsKey = bingMapsKey;
         System.out.println("Bing maps key is " + bingMapsKey);
         this.webClient = WebClient.builder()
-            .baseUrl("https://dev.virtualearth.net")
+            .baseUrl(baseUrl)
             .build();
     }
 
@@ -38,6 +40,17 @@ public class BingMapsService implements MapService {
         
         System.out.println(fromResource);
         System.out.println(toResource);
+
+        if (fromResource != null && toResource != null) {
+            String link = UriComponentsBuilder.fromUriString(baseUrl)
+            .path("/REST/v1/Routes/Driving")
+            .queryParam("waypoint.1", fromResource.getPoint().getCoordinates().get(0) + "," + fromResource.getPoint().getCoordinates().get(1))
+            .queryParam("waypoint.2", toResource.getPoint().getCoordinates().get(0) + "," + toResource.getPoint().getCoordinates().get(1))
+            .queryParam("key", bingMapsKey)
+            .build().toString();
+
+            result.setLink(link);
+        }
 
         return result;
     }
