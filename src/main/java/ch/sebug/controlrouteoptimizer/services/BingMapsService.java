@@ -7,6 +7,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import ch.sebug.controlrouteoptimizer.models.BingMapsLocationResource;
 import ch.sebug.controlrouteoptimizer.models.BingMapsLocationResponse;
+import ch.sebug.controlrouteoptimizer.models.BingMapsRouteResponse;
 import ch.sebug.controlrouteoptimizer.models.MapResult;
 import ch.sebug.controlrouteoptimizer.models.RouteRequest;
 import ch.sebug.controlrouteoptimizer.models.Shelter;
@@ -48,6 +49,12 @@ public class BingMapsService implements MapService {
             .queryParam("waypoint.2", toResource.getPoint().getCoordinates().get(0) + "," + toResource.getPoint().getCoordinates().get(1))
             .queryParam("key", bingMapsKey)
             .build().toString();
+
+            Mono<BingMapsRouteResponse> routeResponseMono = this.webClient.get().uri(link).retrieve().bodyToMono(BingMapsRouteResponse.class);
+
+            BingMapsRouteResponse routeResponse = routeResponseMono.block();
+
+            System.out.println(routeResponse.getResourceSets());
 
             String imageLink = UriComponentsBuilder.fromUriString(baseUrl)
             .path("/REST/v1/Imagery/Map/Road/Routes/Driving")
