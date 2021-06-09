@@ -11,15 +11,32 @@
             <p:panel header="Calculate Route">
                 <h:panelGrid columns="1">
                     <p:outputLabel for="fromShelterId" value="From Shelter: " />
-                    <p:selectOneMenu id="fromShelterId" value="#{routeRequestController.fromShelter}" var="s" converter="#{routeRequestController.shelterConverter}">
-                        
+                    <p:selectOneMenu id="fromShelterId" value="#{routeRequestController.fromShelter}" var="s"
+                    converter="#{routeRequestController.shelterConverter}">
+                    <f:selectItem itemLabel="Select from Shelter" itemValue="" />
                     <f:selectItems value="#{routeRequestController.shelters}" var="shelter" itemLabel="#{shelter.name}"
-                        itemValue="#{shelter}">
+                        itemValue="#{shelter}" />
                         <p:column>
-                            <f:facet name="header">Name</f:facet>
                             <h:outputText value="#{shelter.name}" />
+                            <f:facet name="header">Name</f:facet>
                         </p:column>
-                    </f:selectItems>
+                        <p:column>
+                            <h:outputText value="#{shelter.street}" />
+                            <f:facet name="header">Street</f:facet>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{shelter.zip}" />
+                            <f:facet name="header">Zip Code</f:facet>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{shelter.city}" />
+                            <f:facet name="header">City</f:facet>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:separator />
+                            <h:outputText value="#{routeRequestController.shelters.size()} available shelters" style="font-weight:bold;"/>
+                        </f:facet>
                     </p:selectOneMenu>
                     <p:outputLabel for="toShelterId" value="To Shelter: " />
                     <p:inputText id="toShelterId" value="#{routeRequestController.routeRequest.toShelterId}" />
