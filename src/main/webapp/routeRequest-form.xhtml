@@ -70,6 +70,11 @@
                     <h:commandButton value="Calculate Route" action="#{routeRequestController.calculateRoute}" />
                 </h:panelGrid>
             </p:panel>
+            <p:panel header="Route" rendered="#{not empty routeRequestController.routeRequest.imageLink}">
+                <h:panelGrid columns="1">
+                    <h:graphicImage url="#{routeRequestController.routeRequest.imageLink}" />
+                </h:panelGrid>
+            </p:panel>
         </h:form>
     </ui:define>
 </ui:composition>

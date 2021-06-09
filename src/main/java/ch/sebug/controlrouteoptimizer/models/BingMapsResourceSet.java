@@ -5,6 +5,6 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class BingMapsResourceSet {
-    List<BingMapsResource> resources;
+public class BingMapsResourceSet<T> {
+    List<T> resources;
 }

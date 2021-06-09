@@ -5,8 +5,8 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class BingMapsResponse {
+public class BingMapsLocationResponse {
     private String authenticationResultCode;
 
-    List<BingMapsResourceSet> resourceSets;
+    List<BingMapsResourceSet<BingMapsLocationResource>> resourceSets;
 }

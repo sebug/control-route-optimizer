@@ -81,7 +81,6 @@ public class RouteRequestController {
     }
 
     public List<Shelter> getShelters() {
-        System.out.println("Shelter size: " + shelters.size());
         return shelters;
     }
 

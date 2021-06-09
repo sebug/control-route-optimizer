@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import ch.sebug.controlrouteoptimizer.models.BingMapsResource;
-import ch.sebug.controlrouteoptimizer.models.BingMapsResponse;
+import ch.sebug.controlrouteoptimizer.models.BingMapsLocationResource;
+import ch.sebug.controlrouteoptimizer.models.BingMapsLocationResponse;
 import ch.sebug.controlrouteoptimizer.models.MapResult;
 import ch.sebug.controlrouteoptimizer.models.RouteRequest;
 import ch.sebug.controlrouteoptimizer.models.Shelter;
@@ -35,8 +35,8 @@ public class BingMapsService implements MapService {
             return null;
         }
         MapResult result = new MapResult();
-        BingMapsResource fromResource = getAddress(r.getFromShelter());
-        BingMapsResource toResource = getAddress(r.getToShelter());
+        BingMapsLocationResource fromResource = getAddress(r.getFromShelter());
+        BingMapsLocationResource toResource = getAddress(r.getToShelter());
         
         System.out.println(fromResource);
         System.out.println(toResource);
@@ -62,14 +62,14 @@ public class BingMapsService implements MapService {
         return result;
     }
 
-    private BingMapsResource getAddress(Shelter s) {
-        Mono<BingMapsResponse> response = this.webClient.get().uri("/REST/v1/Locations?countryRegion={countryRegion}" +
+    private BingMapsLocationResource getAddress(Shelter s) {
+        Mono<BingMapsLocationResponse> response = this.webClient.get().uri("/REST/v1/Locations?countryRegion={countryRegion}" +
          "&locality={locality}&postalCode={postalCode}&addressLine={addressLine}" +
          "&key={key}",
          s.getCountry(), s.getCity(), s.getZip(), s.getStreet(), bingMapsKey).retrieve()
-         .bodyToMono(BingMapsResponse.class);
+         .bodyToMono(BingMapsLocationResponse.class);
 
-         BingMapsResponse result = response.block();
+         BingMapsLocationResponse result = response.block();
 
          return result.getResourceSets().get(0).getResources().get(0);
     }
