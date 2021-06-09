@@ -72,6 +72,8 @@
             </p:panel>
             <p:panel header="Route" rendered="#{not empty routeRequestController.routeRequest.imageLink}">
                 <h:panelGrid columns="1">
+                    Route takes #{routeRequestController.routeRequest.minutes} minutes
+                    #{routeRequestController.routeRequest.seconds} seconds
                     <h:graphicImage url="#{routeRequestController.routeRequest.imageLink}" />
                 </h:panelGrid>
             </p:panel>

@@ -57,6 +57,8 @@ public class RouteRequestController {
         MapResult mapResult = mapService.CalculateRoute(routeRequest);
         if (mapResult != null) {
             routeRequest.setImageLink(mapResult.getImageLink());
+            routeRequest.setMinutes(mapResult.getMinutes());
+            routeRequest.setSeconds(mapResult.getSeconds());
         }
     }
 
