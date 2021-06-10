@@ -63,6 +63,11 @@ public class ShelterAssignmentController {
         return timeSlots;
     }
 
+    private List<ShelterAssignmentLineViewModel> lineViewModels;
+    public List<ShelterAssignmentLineViewModel> getLineViewModels() {
+        return lineViewModels;
+    }
+
     @Deferred
     @RequestAction
     @IgnorePostback
@@ -71,7 +76,7 @@ public class ShelterAssignmentController {
         teams = teamRepository.findAll();
         timeSlots = timeSlotRepository.findAll();
 
-        List<ShelterAssignmentLineViewModel> lineViewModels = calculateShelterAssignmentLineViewModels(shelterAssignments);
+        lineViewModels = calculateShelterAssignmentLineViewModels(shelterAssignments);
 
         System.out.println("Shelter assignment lines size is " + lineViewModels.size());
     }
@@ -82,6 +87,7 @@ public class ShelterAssignmentController {
         for (TimeSlot timeSlot : timeSlots) {
             ShelterAssignmentLineViewModel line = new ShelterAssignmentLineViewModel();
             line.setTimeSlotId(timeSlot.getId());
+            line.setDate(timeSlot.getStartDate());
             ArrayList<ShelterAssignmentViewModel> assignmentViewModels = new ArrayList<ShelterAssignmentViewModel>();
             for (Team team : teams) {
                 ShelterAssignmentViewModel assignmentViewModel = new ShelterAssignmentViewModel();
