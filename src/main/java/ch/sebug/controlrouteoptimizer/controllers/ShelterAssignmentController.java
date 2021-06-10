@@ -145,6 +145,7 @@ public class ShelterAssignmentController {
     private List<ShelterAssignmentLineViewModel> calculateShelterAssignmentLineViewModels() {
         ArrayList<ShelterAssignmentLineViewModel> result = new ArrayList<ShelterAssignmentLineViewModel>();
 
+        HashMap<Long, Shelter> previousShelters = new HashMap<Long, Shelter>();
         for (TimeSlot timeSlot : timeSlots) {
             ShelterAssignmentLineViewModel line = new ShelterAssignmentLineViewModel();
             line.setTimeSlotId(timeSlot.getId());
@@ -156,7 +157,6 @@ public class ShelterAssignmentController {
             List<Shelter> timeSlotShelters = this.shelterRepository.findAll(Example.of(exampleShelter));
             System.out.println("Found " + timeSlotShelters.size() + " candidate shelters");
 
-            HashMap<Long, Shelter> previousShelters = new HashMap<Long, Shelter>();
             List<Shelter> unusedTimeSlotShelters = timeSlotShelters.stream().collect(java.util.stream.Collectors.toList());
             for (Team team : teams) {
                 ShelterAssignmentViewModel assignmentViewModel = new ShelterAssignmentViewModel();
@@ -180,7 +180,13 @@ public class ShelterAssignmentController {
             for (ShelterAssignmentViewModel assignmentViewModel : assignmentViewModels.values()) {
                 if (assignmentViewModel.getShelterId() == null) {
                     Shelter previousShelter = previousShelters.getOrDefault(assignmentViewModel.getTeamId(), null);
-                    System.out.println("Finding next shelter for team " + assignmentViewModel.getTeamId());
+                    Shelter chosenShelter = determineNextShelter(previousShelter, unusedTimeSlotShelters);
+                    if (chosenShelter != null) {
+                        assignmentViewModel.setShelterId(chosenShelter.getId());
+                        assignmentViewModel.setShelter(chosenShelter);
+                        previousShelters.put(assignmentViewModel.getTeamId(), chosenShelter);
+                        unusedTimeSlotShelters.remove(chosenShelter);
+                    }
                 }
             }
             line.setAssignments(assignmentViewModels);
@@ -188,5 +194,19 @@ public class ShelterAssignmentController {
         }
 
         return result;
+    }
+
+    private Shelter determineNextShelter(Shelter previousShelter, List<Shelter> candidateShelters) {
+        if (candidateShelters == null || candidateShelters.isEmpty()) {
+            return null;
+        }
+        if (previousShelter == null) {
+            // select one at random
+            int idx = (int)(Math.random() * candidateShelters.size());
+            Shelter chosen = candidateShelters.get(idx);
+            return chosen;
+        }
+        // Todo
+        return null;
     }
 }
