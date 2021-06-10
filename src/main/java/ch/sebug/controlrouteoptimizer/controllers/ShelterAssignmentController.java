@@ -131,7 +131,7 @@ public class ShelterAssignmentController {
 
             ValueExpression mapExpression = ef.createValueExpression(elc, "#{shelterAssignmentLine.assignments[" +
             team.getId() +
-            "]}", Object.class);
+            "].shelter.shortAddressString}", Object.class);
             HtmlOutputText mapOutput = (HtmlOutputText)application.createComponent(HtmlOutputText.COMPONENT_TYPE);
             mapOutput.setValueExpression("value", mapExpression);
             teamColumn.getChildren().add(mapOutput);
@@ -167,6 +167,7 @@ public class ShelterAssignmentController {
                     Optional<ShelterAssignment> foundShelterAssignment = this.shelterAssignmentRepository.findOne(Example.of(exampleShelterAssignment));
                     if (foundShelterAssignment.isPresent()) {
                         assignmentViewModel.setShelterId(candidateShelter.getId());
+                        assignmentViewModel.setShelter(candidateShelter);
                     }
                 }
 

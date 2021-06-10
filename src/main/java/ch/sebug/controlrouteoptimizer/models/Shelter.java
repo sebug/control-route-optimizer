@@ -33,4 +33,8 @@ public class Shelter {
 
     @Column
     private Long timeSlotId;
+
+    public String getShortAddressString() {
+        return "" + street + " " + city;
+    }
 }

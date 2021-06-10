@@ -6,4 +6,5 @@ import lombok.Data;
 public class ShelterAssignmentViewModel {
     private Long shelterId;
     private Long teamId;
+    private Shelter shelter;
 }
