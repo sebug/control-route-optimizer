@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -85,6 +86,20 @@ public class MeetingImportRequestController {
             for (Cell c : row) {
                 if (j == 1) {
                     importLine.setStartDate(c.getDateCellValue());
+                } else if (j == 5) {
+                    importLine.setShelterNumber("" + ((int)c.getNumericCellValue()));
+                } else if (j == 6) {
+                    importLine.setStreet(c.getStringCellValue());
+                } else if (j == 7) {
+                    importLine.setCity(c.getStringCellValue());
+                } else if (j == 9) {
+                    if (c.getCellType() == CellType.STRING) {
+                        importLine.setName(c.getStringCellValue());
+                    }
+                } else if (j == 10) {
+                    if (c.getCellType() == CellType.STRING) {
+                        importLine.setFirstName(c.getStringCellValue());
+                    }
                 }
                 j += 1;
             }
@@ -92,6 +107,6 @@ public class MeetingImportRequestController {
                 importLines.add(importLine);
             }
         }
-        System.out.println("Meeting import lines length " + importLines.size());
+        System.out.println(importLines);
     }
 }
