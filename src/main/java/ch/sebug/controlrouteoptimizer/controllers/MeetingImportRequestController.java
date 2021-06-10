@@ -1,8 +1,13 @@
 package ch.sebug.controlrouteoptimizer.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.Parameter;
 import org.ocpsoft.rewrite.annotation.RequestAction;
@@ -45,12 +50,18 @@ public class MeetingImportRequestController {
         this.meetingFile = meetingFile;
     }
 
-    public void handleFileUpload(FileUploadEvent event) {
+    public void handleFileUpload(FileUploadEvent event) throws IOException {
         this.setMeetingFile(event.getFile());
+        importFileBytes = event.getFile().getInputStream().readAllBytes();
     }
 
-    public String importFile() {
-        System.out.println(meetingFile);
+    private byte[] importFileBytes;
+
+    public String importFile() throws IOException {
+        InputStream excelInputStream = new ByteArrayInputStream(importFileBytes);
+        Workbook workbook = new XSSFWorkbook(excelInputStream);
+
+        System.out.println(workbook);
         return "/shelter-list.xhtml?faces-redirect=true";
     }
 }
