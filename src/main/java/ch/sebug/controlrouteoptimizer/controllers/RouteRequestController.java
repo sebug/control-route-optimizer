@@ -1,8 +1,10 @@
 package ch.sebug.controlrouteoptimizer.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.annotation.Parameter;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
@@ -36,6 +38,42 @@ public class RouteRequestController {
 
     private RouteRequest routeRequest = new RouteRequest();
 
+    @Parameter
+    @Deferred
+    private String fromShelterId;
+
+    public String getFromShelterId() {
+        return fromShelterId;
+    }
+
+    public void setFromShelterId(String fromShelterId) {
+        this.fromShelterId = fromShelterId;
+        if (fromShelterId == null || fromShelterId == "") {
+            fromShelter = null;
+            if (routeRequest != null) {
+                routeRequest.setImageLink(null);
+            }
+        }
+    }
+
+    @Parameter
+    @Deferred
+    private String toShelterId;
+
+    public String getToShelterId() {
+        return toShelterId;
+    }
+
+    public void setToShelterId(String toShelterId) {
+        this.toShelterId = toShelterId;
+        if (toShelterId == null || toShelterId == "") {
+            toShelter = null;
+            if (routeRequest != null) {
+                routeRequest.setImageLink(null);
+            }
+        }
+    }
+
     private Shelter fromShelter;
 
     private Shelter toShelter;
@@ -45,6 +83,17 @@ public class RouteRequestController {
     @IgnorePostback
     public void loadData() {
         shelters = shelterRepository.findAll();
+        if (fromShelterId != null && fromShelterId != "") {
+            Optional<Shelter> maybeFromShelter = shelterRepository.findById(Long.parseLong(fromShelterId));
+            fromShelter = maybeFromShelter.orElse(fromShelter);
+        }
+        if (toShelterId != null && toShelterId != "") {
+            Optional<Shelter> maybeToShelter = shelterRepository.findById(Long.parseLong(toShelterId));
+            toShelter = maybeToShelter.orElse(toShelter);
+        }
+        if (fromShelter != null && toShelter != null) {
+            calculateRoute();
+        }
     }
 
     public void calculateRoute() {
