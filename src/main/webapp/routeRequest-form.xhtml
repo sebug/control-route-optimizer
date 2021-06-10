@@ -14,7 +14,7 @@
                     <p:selectOneMenu id="fromShelterId" value="#{routeRequestController.fromShelter}" var="s"
                     converter="#{routeRequestController.shelterConverter}">
                     <f:selectItem itemLabel="Select from Shelter" itemValue="" />
-                    <f:selectItems value="#{routeRequestController.shelters}" var="shelter" itemLabel="#{shelter.number.concat(' ').concat(shelter.name)}"
+                    <f:selectItems value="#{routeRequestController.shelters}" var="shelter" itemLabel="#{shelter.number.concat(' ').concat(shelter.street).concat(' ').concat(shelter.city)}"
                         itemValue="#{shelter}" />
                         <p:column>
                             <h:outputText value="#{s.number}" />
@@ -46,7 +46,7 @@
                     <p:selectOneMenu id="toShelterId" value="#{routeRequestController.toShelter}" var="s"
                     converter="#{routeRequestController.shelterConverter}">
                     <f:selectItem itemLabel="Select to Shelter" itemValue="" />
-                    <f:selectItems value="#{routeRequestController.shelters}" var="shelter" itemLabel="#{shelter.number.concat(' ').concat(shelter.name)}"
+                    <f:selectItems value="#{routeRequestController.shelters}" var="shelter" itemLabel="#{shelter.number.concat(' ').concat(shelter.street).concat(' ').concat(shelter.city)}"
                         itemValue="#{shelter}" />
                         <p:column>
                             <h:outputText value="#{s.name}" />
