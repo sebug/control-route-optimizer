@@ -38,6 +38,6 @@ public class Shelter {
     private Long timeSlotId;
 
     public String getShortAddressString() {
-        return "" + street + " " + city;
+        return "" + number + " - "  + street + " " + city;
     }
 }
