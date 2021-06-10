@@ -1,7 +1,7 @@
 package ch.sebug.controlrouteoptimizer.models;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import lombok.Data;
 
@@ -9,5 +9,5 @@ import lombok.Data;
 public class ShelterAssignmentLineViewModel {
     private Long timeSlotId;
     private Date date;
-    private List<ShelterAssignmentViewModel> assignments;
+    private Map<Long, ShelterAssignmentViewModel> assignments;
 }

@@ -1,6 +1,7 @@
 package ch.sebug.controlrouteoptimizer.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -140,7 +141,7 @@ public class ShelterAssignmentController {
             ShelterAssignmentLineViewModel line = new ShelterAssignmentLineViewModel();
             line.setTimeSlotId(timeSlot.getId());
             line.setDate(timeSlot.getStartDate());
-            ArrayList<ShelterAssignmentViewModel> assignmentViewModels = new ArrayList<ShelterAssignmentViewModel>();
+            HashMap<Long, ShelterAssignmentViewModel> assignmentViewModels = new HashMap<Long, ShelterAssignmentViewModel>();
             for (Team team : teams) {
                 ShelterAssignmentViewModel assignmentViewModel = new ShelterAssignmentViewModel();
                 assignmentViewModel.setTeamId(team.getId());
