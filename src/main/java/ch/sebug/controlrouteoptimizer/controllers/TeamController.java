@@ -1,7 +1,13 @@
 package ch.sebug.controlrouteoptimizer.controllers;
 
+import java.util.Optional;
+
 import org.ocpsoft.rewrite.annotation.Join;
+import org.ocpsoft.rewrite.annotation.Parameter;
+import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
+import org.ocpsoft.rewrite.faces.annotation.Deferred;
+import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +27,41 @@ public class TeamController {
         this.teamRepository = teamRepository;
     }
 
-    private Team team = new Team();
+    @Parameter
+    @Deferred
+    private String teamId;
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    private Team team;
+
+    @Deferred
+    @RequestAction
+    @IgnorePostback
+    public void loadData() {
+        System.out.println("Team Id is " + teamId);
+        if (teamId == null || teamId == "") {
+            team = new Team();
+        } else {
+            try {
+                Optional<Team> maybeTimeSlot = teamRepository.findById(Long.parseLong(teamId));
+                if (maybeTimeSlot.isPresent()) {
+                    team = maybeTimeSlot.get();
+                } else {
+                    team = new Team();
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+                team = new Team();
+            }
+        }
+    }
 
     public String save() {
         teamRepository.save(team);

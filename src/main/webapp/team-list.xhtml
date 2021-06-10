@@ -10,7 +10,7 @@
         <ui:define name="content">
             <h:form id="form">
                 <p:panel header="Team List">
-                    <p:button href="/team" value="New Team" />
+                    <p:button href="/team?teamId=" value="New Team" />
                     <p:dataTable id="table" var="team" value="#{teamList.teams}">
                         <p:column>
                             <f:facet name="header"># Id</f:facet>
@@ -20,6 +20,11 @@
                         <p:column>
                             <f:facet name="header">Name</f:facet>
                             <h:outputText value="#{team.name}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">Actions</f:facet>
+                            <p:link href="#{'/team?teamId='.concat(team.id)}" value="Edit" />
                         </p:column>
                     </p:dataTable>
                 </p:panel>
