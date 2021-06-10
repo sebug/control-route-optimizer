@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,6 +114,14 @@ public class MeetingImportRequestController {
     }
 
     private void importMeetingImportLines(List<MeetingImportLine> importLines) {
+        importLines = importLines.stream().sorted(new Comparator<MeetingImportLine>(){
+
+            @Override
+            public int compare(MeetingImportLine o1, MeetingImportLine o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+            
+        }).collect(java.util.stream.Collectors.toList());
         for (MeetingImportLine importLine : importLines) {
             TimeSlot exampleTimeSlot = new TimeSlot();
             exampleTimeSlot.setStartDate(importLine.getStartDate());
