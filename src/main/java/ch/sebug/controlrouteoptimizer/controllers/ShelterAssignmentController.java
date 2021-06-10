@@ -124,6 +124,12 @@ public class ShelterAssignmentController {
 
         scheduleTable.getChildren().add(dateAndTimeColumn);
 
+        for (Team team : teams) {
+            Column teamColumn = new Column();
+            teamColumn.setHeaderText(team.getName());
+            scheduleTable.getChildren().add(teamColumn);
+        }
+
         System.out.println(scheduleTable);
     }
 
