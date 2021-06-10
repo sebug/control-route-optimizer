@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.ocpsoft.rewrite.annotation.Join;
@@ -60,8 +62,21 @@ public class MeetingImportRequestController {
     public String importFile() throws IOException {
         InputStream excelInputStream = new ByteArrayInputStream(importFileBytes);
         Workbook workbook = new XSSFWorkbook(excelInputStream);
+        importMeetings(workbook.getSheetAt(0));
 
         System.out.println(workbook);
         return "/shelter-list.xhtml?faces-redirect=true";
+    }
+
+    private void importMeetings(Sheet sheet) {
+        int idx = 0;
+        for (Row row : sheet) {
+            if (idx == 0) {
+                idx += 1;
+                continue;
+            }
+            idx += 1;
+            System.out.println(row);
+        }
     }
 }
