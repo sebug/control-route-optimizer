@@ -128,6 +128,14 @@ public class ShelterAssignmentController {
         for (Team team : teams) {
             Column teamColumn = new Column();
             teamColumn.setHeaderText(team.getName());
+
+            ValueExpression mapExpression = ef.createValueExpression(elc, "#{shelterAssignmentLine.assignments[" +
+            team.getId() +
+            "]}", Object.class);
+            HtmlOutputText mapOutput = (HtmlOutputText)application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+            mapOutput.setValueExpression("value", mapExpression);
+            teamColumn.getChildren().add(mapOutput);
+
             scheduleTable.getChildren().add(teamColumn);
         }
 
@@ -145,6 +153,7 @@ public class ShelterAssignmentController {
             for (Team team : teams) {
                 ShelterAssignmentViewModel assignmentViewModel = new ShelterAssignmentViewModel();
                 assignmentViewModel.setTeamId(team.getId());
+                assignmentViewModels.put(team.getId(), assignmentViewModel);
             }
             line.setAssignments(assignmentViewModels);
             result.add(line);
