@@ -9,12 +9,7 @@
     <ui:define name="content">
         <h:form id="shelterAssignmentForm">
             <p:panel header="Shelter Assignment">
-                <p:dataTable id="table" var="shelterAssignmentLine" value="#{shelterAssignmentController.lineViewModels}">
-                        <p:column>
-                            <f:facet name="header">Date and Time</f:facet>
-                            <h:outputText value="#{shelterAssignmentLine.date}" />
-                        </p:column>
-                    </p:dataTable>
+                <p:dataTable binding="#{shelterAssignmentController.scheduleTable}"  />
             </p:panel>
         </h:form>
     </ui:define>

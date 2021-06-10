@@ -4,12 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
+import javax.faces.application.Application;
+import javax.faces.component.html.HtmlOutputText;
+import javax.faces.context.FacesContext;
+
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.Parameter;
 import org.ocpsoft.rewrite.annotation.RequestAction;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.ocpsoft.rewrite.faces.annotation.Deferred;
 import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
+import org.primefaces.component.api.UIColumn;
+import org.primefaces.component.column.Column;
+import org.primefaces.component.datatable.DataTable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -68,6 +78,16 @@ public class ShelterAssignmentController {
         return lineViewModels;
     }
 
+    private DataTable scheduleTable;
+
+    public DataTable getScheduleTable() {
+        return scheduleTable;
+    }
+
+    public void setScheduleTable(DataTable scheduleTable) {
+        this.scheduleTable = scheduleTable;
+    }
+
     @Deferred
     @RequestAction
     @IgnorePostback
@@ -79,6 +99,32 @@ public class ShelterAssignmentController {
         lineViewModels = calculateShelterAssignmentLineViewModels(shelterAssignments);
 
         System.out.println("Shelter assignment lines size is " + lineViewModels.size());
+
+        initScheduleTable();
+    }
+
+    private void initScheduleTable() {
+        scheduleTable = new DataTable();
+        scheduleTable.setVar("shelterAssignmentLine");
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Application application = fc.getApplication();
+        ExpressionFactory ef = application.getExpressionFactory();
+        ELContext elc = fc.getELContext();
+
+        ValueExpression tableValueExpression = ef.createValueExpression(elc, "#{shelterAssignmentController.lineViewModels}", Object.class);
+        scheduleTable.setValueExpression("value", tableValueExpression);
+
+        Column dateAndTimeColumn = new Column();
+        dateAndTimeColumn.setHeaderText("Date and Time");
+        ValueExpression valueExpression = ef.createValueExpression(elc, "#{shelterAssignmentLine.date}", Object.class);
+        HtmlOutputText output = (HtmlOutputText)application.createComponent(HtmlOutputText.COMPONENT_TYPE);
+        output.setValueExpression("value", valueExpression);
+        dateAndTimeColumn.getChildren().add(output);
+
+        scheduleTable.getChildren().add(dateAndTimeColumn);
+
+        System.out.println(scheduleTable);
     }
 
     private List<ShelterAssignmentLineViewModel> calculateShelterAssignmentLineViewModels(List<ShelterAssignment> shelterAssignments) {
