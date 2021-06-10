@@ -206,7 +206,27 @@ public class ShelterAssignmentController {
             Shelter chosen = candidateShelters.get(idx);
             return chosen;
         }
+        MapResult closestMapResult = null;
+        Shelter closestShelter = null;
+        for (Shelter candidateShelter : candidateShelters) {
+            RouteRequest routeRequest = new RouteRequest();
+            routeRequest.setFromShelter(previousShelter);
+            routeRequest.setToShelter(candidateShelter);
+            MapResult checkResult = this.mapService.CalculateRoute(routeRequest);
+            if (checkResult != null) {
+                if (closestMapResult == null) {
+                    closestMapResult = checkResult;
+                    closestShelter = candidateShelter;
+                } else {
+                    if (checkResult.getMinutes() * 60 + checkResult.getSeconds() <
+                        closestMapResult.getMinutes() * 60 + closestMapResult.getSeconds()) {
+                            closestMapResult = checkResult;
+                            closestShelter = candidateShelter;
+                        }
+                }
+            }
+        }
         // Todo
-        return null;
+        return closestShelter;
     }
 }
