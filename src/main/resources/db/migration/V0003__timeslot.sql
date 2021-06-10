@@ -1,4 +1,4 @@
-create table timeslot (
+create table time_slot (
     id identity not null,
-    startDate datetime not null
+    start_date datetime not null
 );
