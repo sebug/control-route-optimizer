@@ -226,7 +226,6 @@ public class ShelterAssignmentController {
                 }
             }
         }
-        // Todo
         return closestShelter;
     }
 }
