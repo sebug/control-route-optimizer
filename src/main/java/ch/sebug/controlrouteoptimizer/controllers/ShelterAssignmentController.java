@@ -12,7 +12,6 @@ import javax.faces.application.Application;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
-import org.hibernate.criterion.Example;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.Parameter;
 import org.ocpsoft.rewrite.annotation.RequestAction;
@@ -23,6 +22,7 @@ import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import ch.sebug.controlrouteoptimizer.ShelterConverter;
@@ -150,6 +150,12 @@ public class ShelterAssignmentController {
             line.setTimeSlotId(timeSlot.getId());
             line.setDate(timeSlot.getStartDate());
             HashMap<Long, ShelterAssignmentViewModel> assignmentViewModels = new HashMap<Long, ShelterAssignmentViewModel>();
+            
+            Shelter exampleShelter = new Shelter();
+            exampleShelter.setTimeSlotId(timeSlot.getId());
+            List<Shelter> timeSlotShelters = this.shelterRepository.findAll(Example.of(exampleShelter));
+            System.out.println("Found " + timeSlotShelters.size() + " candidate shelters");
+
             for (Team team : teams) {
                 ShelterAssignmentViewModel assignmentViewModel = new ShelterAssignmentViewModel();
                 assignmentViewModel.setTeamId(team.getId());
