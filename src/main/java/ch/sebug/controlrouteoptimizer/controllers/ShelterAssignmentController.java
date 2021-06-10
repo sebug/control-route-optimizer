@@ -156,6 +156,8 @@ public class ShelterAssignmentController {
             List<Shelter> timeSlotShelters = this.shelterRepository.findAll(Example.of(exampleShelter));
             System.out.println("Found " + timeSlotShelters.size() + " candidate shelters");
 
+            HashMap<Long, Shelter> previousShelters = new HashMap<Long, Shelter>();
+            List<Shelter> unusedTimeSlotShelters = timeSlotShelters.stream().collect(java.util.stream.Collectors.toList());
             for (Team team : teams) {
                 ShelterAssignmentViewModel assignmentViewModel = new ShelterAssignmentViewModel();
                 assignmentViewModel.setTeamId(team.getId());
@@ -168,10 +170,18 @@ public class ShelterAssignmentController {
                     if (foundShelterAssignment.isPresent()) {
                         assignmentViewModel.setShelterId(candidateShelter.getId());
                         assignmentViewModel.setShelter(candidateShelter);
-                    }
+                        previousShelters.put(team.getId(), candidateShelter);
+                        unusedTimeSlotShelters.remove(candidateShelter);
+                     }
                 }
 
                 assignmentViewModels.put(team.getId(), assignmentViewModel);
+            }
+            for (ShelterAssignmentViewModel assignmentViewModel : assignmentViewModels.values()) {
+                if (assignmentViewModel.getShelterId() == null) {
+                    Shelter previousShelter = previousShelters.getOrDefault(assignmentViewModel.getTeamId(), null);
+                    System.out.println("Finding next shelter for team " + assignmentViewModel.getTeamId());
+                }
             }
             line.setAssignments(assignmentViewModels);
             result.add(line);
