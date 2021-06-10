@@ -1,5 +1,5 @@
 create table shelter (
-    id identity not null,
+    id identity not null primary key,
     name varchar(255) not null,
     street varchar(255) not null,
     zip varchar(50) not null,

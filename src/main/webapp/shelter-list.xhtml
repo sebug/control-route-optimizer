@@ -10,7 +10,7 @@
         <ui:define name="content">
             <h:form id="form">
                 <p:panel header="Shelter List">
-                    <p:button href="/shelter" value="New Shelter" />
+                    <p:button href="/shelter?shelterId=" value="New Shelter" />
                     <p:dataTable id="table" var="shelter" value="#{shelterList.shelters}">
                         <p:column>
                             <f:facet name="header"># Id</f:facet>
