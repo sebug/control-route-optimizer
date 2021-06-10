@@ -160,7 +160,15 @@ public class ShelterAssignmentController {
                 ShelterAssignmentViewModel assignmentViewModel = new ShelterAssignmentViewModel();
                 assignmentViewModel.setTeamId(team.getId());
 
-                
+                for (Shelter candidateShelter : timeSlotShelters) {
+                    ShelterAssignment exampleShelterAssignment = new ShelterAssignment();
+                    exampleShelterAssignment.setTeamId(team.getId());
+                    exampleShelterAssignment.setShelterId(candidateShelter.getId());
+                    Optional<ShelterAssignment> foundShelterAssignment = this.shelterAssignmentRepository.findOne(Example.of(exampleShelterAssignment));
+                    if (foundShelterAssignment.isPresent()) {
+                        assignmentViewModel.setShelterId(candidateShelter.getId());
+                    }
+                }
 
                 assignmentViewModels.put(team.getId(), assignmentViewModel);
             }
