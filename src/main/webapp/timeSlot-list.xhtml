@@ -10,6 +10,7 @@
         <ui:define name="content">
             <h:form id="form">
                 <p:panel header="Time Slot List">
+                    <p:button href="/timeSlot" value="New Time Slot" />
                     <p:dataTable id="table" var="timeSlot" value="#{timeSlotList.timeSlots}">
                         <p:column>
                             <f:facet name="header">Start Date</f:facet>
