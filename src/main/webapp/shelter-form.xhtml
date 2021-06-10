@@ -3,7 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 <ui:composition template="layout.xhtml">
     <ui:define name="content">
         <h:form id="shelterForm">
@@ -19,6 +20,22 @@
                     <p:inputText id="city" value="#{shelterController.shelter.city}" />
                     <p:outputLabel for="country" value="Country: " />
                     <p:inputText id="country" value="#{shelterController.shelter.country}" />
+                    <p:outputLabel for="timeSlot" value="Time Slot: " />
+                    <p:selectOneMenu id="timeSlot" value="#{shelterController.timeSlot}" var="t"
+                    converter="#{shelterController.timeSlotConverter}">
+                    <f:selectItem itemLabel="Select Time Slot" itemValue="" />
+                    <f:selectItems value="#{shelterController.timeSlots}" var="timeSlot" itemLabel="#{timeSlot.startDate}"
+                        itemValue="#{timeSlot}" />
+                        <p:column>
+                            <h:outputText value="#{t.startDate}" />
+                            <f:facet name="header">Start Date</f:facet>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:separator />
+                            <h:outputText value="#{shelterController.timeSlots.size()} available time slots" style="font-weight:bold;"/>
+                        </f:facet>
+                    </p:selectOneMenu>
                     <h:commandButton value="Save" action="#{shelterController.save}" />
                 </h:panelGrid>
             </p:panel>
