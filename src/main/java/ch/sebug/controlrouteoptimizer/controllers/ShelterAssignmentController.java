@@ -21,6 +21,7 @@ import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.component.link.Link;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
@@ -129,12 +130,26 @@ public class ShelterAssignmentController {
             Column teamColumn = new Column();
             teamColumn.setHeaderText(team.getName());
 
+            ValueExpression routeLinkExpression = ef.createValueExpression(elc, "#{shelterAssignmentLine.assignments[" +
+            team.getId() +
+            "].routeLink}",Object.class);
+            ValueExpression routeLinkRenderedExpression = ef.createValueExpression(elc, "#{not empty shelterAssignmentLine.assignments[" +
+            team.getId() +
+            "].routeLink}", Object.class);
+            Link linkOutput = (Link)application.createComponent(Link.COMPONENT_TYPE);
+            linkOutput.setValue("Route");
+            linkOutput.setValueExpression("rendered", routeLinkRenderedExpression);
+            linkOutput.setValueExpression("href", routeLinkExpression);
+            teamColumn.getChildren().add(linkOutput);
+
             ValueExpression mapExpression = ef.createValueExpression(elc, "#{shelterAssignmentLine.assignments[" +
             team.getId() +
             "].shelter.shortAddressString}", Object.class);
             HtmlOutputText mapOutput = (HtmlOutputText)application.createComponent(HtmlOutputText.COMPONENT_TYPE);
             mapOutput.setValueExpression("value", mapExpression);
             teamColumn.getChildren().add(mapOutput);
+
+            
 
             scheduleTable.getChildren().add(teamColumn);
         }
