@@ -12,6 +12,7 @@ import javax.faces.application.Application;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
+import org.hibernate.criterion.Example;
 import org.ocpsoft.rewrite.annotation.Join;
 import org.ocpsoft.rewrite.annotation.Parameter;
 import org.ocpsoft.rewrite.annotation.RequestAction;
@@ -93,11 +94,10 @@ public class ShelterAssignmentController {
     @RequestAction
     @IgnorePostback
     public void loadData() {
-        List<ShelterAssignment> shelterAssignments = shelterAssignmentRepository.findAll();
         teams = teamRepository.findAll();
         timeSlots = timeSlotRepository.findAll();
 
-        lineViewModels = calculateShelterAssignmentLineViewModels(shelterAssignments);
+        lineViewModels = calculateShelterAssignmentLineViewModels();
 
         System.out.println("Shelter assignment lines size is " + lineViewModels.size());
 
@@ -142,7 +142,7 @@ public class ShelterAssignmentController {
         System.out.println(scheduleTable);
     }
 
-    private List<ShelterAssignmentLineViewModel> calculateShelterAssignmentLineViewModels(List<ShelterAssignment> shelterAssignments) {
+    private List<ShelterAssignmentLineViewModel> calculateShelterAssignmentLineViewModels() {
         ArrayList<ShelterAssignmentLineViewModel> result = new ArrayList<ShelterAssignmentLineViewModel>();
 
         for (TimeSlot timeSlot : timeSlots) {
@@ -153,6 +153,9 @@ public class ShelterAssignmentController {
             for (Team team : teams) {
                 ShelterAssignmentViewModel assignmentViewModel = new ShelterAssignmentViewModel();
                 assignmentViewModel.setTeamId(team.getId());
+
+                
+
                 assignmentViewModels.put(team.getId(), assignmentViewModel);
             }
             line.setAssignments(assignmentViewModels);
