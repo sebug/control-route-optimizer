@@ -30,4 +30,7 @@ public class Shelter {
 
     @Column(name = "country")
     private String country;
+
+    @Column
+    private Long timeSlotId;
 }

@@ -4,5 +4,6 @@ create table shelter (
     street varchar(255) not null,
     zip varchar(50) not null,
     city varchar(50) not null,
-    country varchar(50) not null
+    country varchar(50) not null,
+    time_slot_id bigint null foreign key references time_slot (id)
 );
