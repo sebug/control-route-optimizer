@@ -192,7 +192,10 @@ public class ShelterAssignmentController {
 
                 assignmentViewModels.put(team.getId(), assignmentViewModel);
             }
-            for (ShelterAssignmentViewModel assignmentViewModel : assignmentViewModels.values()) {
+
+            List<ShelterAssignmentViewModel> assignments =
+                shuffle(assignmentViewModels.values().stream().collect(java.util.stream.Collectors.toList()));
+            for (ShelterAssignmentViewModel assignmentViewModel : assignments) {
                 Shelter previousShelter = previousShelters.getOrDefault(assignmentViewModel.getTeamId(), null);
 
                 if (assignmentViewModel.getShelterId() == null) {
@@ -249,5 +252,26 @@ public class ShelterAssignmentController {
             }
         }
         return closestShelter;
+    }
+
+    private List<ShelterAssignmentViewModel> shuffle(List<ShelterAssignmentViewModel> original) {
+        if (original == null || original.isEmpty()) {
+            return original;
+        }
+        int n = original.size();
+        for (int i = 0; i < n; i += 1) {
+            int source = i;
+            int destination = i + ((int)(Math.random() * (n - i)));
+            if (source != destination) {
+                System.out.println(source + " -> " + destination);
+                ShelterAssignmentViewModel destinationAssignment =
+                    original.get(destination);
+                original.set(destination, original.get(source));
+                original.set(source, destinationAssignment);
+            } else {
+                System.out.println(source);
+            }
+        }
+        return original;
     }
 }
