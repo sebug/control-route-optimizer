@@ -22,6 +22,7 @@ import org.ocpsoft.rewrite.faces.annotation.IgnorePostback;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import ch.sebug.controlrouteoptimizer.ShelterConverter;
@@ -29,6 +30,7 @@ import ch.sebug.controlrouteoptimizer.models.MapResult;
 import ch.sebug.controlrouteoptimizer.models.MeetingImportLine;
 import ch.sebug.controlrouteoptimizer.models.RouteRequest;
 import ch.sebug.controlrouteoptimizer.models.Shelter;
+import ch.sebug.controlrouteoptimizer.models.TimeSlot;
 import ch.sebug.controlrouteoptimizer.repositories.ShelterRepository;
 import ch.sebug.controlrouteoptimizer.repositories.TimeSlotRepository;
 import ch.sebug.controlrouteoptimizer.services.MapService;
@@ -107,6 +109,23 @@ public class MeetingImportRequestController {
                 importLines.add(importLine);
             }
         }
-        System.out.println(importLines);
+        importMeetingImportLines(importLines);
+    }
+
+    private void importMeetingImportLines(List<MeetingImportLine> importLines) {
+        for (MeetingImportLine importLine : importLines) {
+            TimeSlot exampleTimeSlot = new TimeSlot();
+            exampleTimeSlot.setStartDate(importLine.getStartDate());
+            Optional<TimeSlot> timeSlotSearchResult = this.timeSlotRepository.findOne(Example.of(exampleTimeSlot));
+            TimeSlot timeSlot;
+            if (timeSlotSearchResult.isPresent()) {
+                timeSlot = timeSlotSearchResult.get();
+            } else {
+                timeSlot = new TimeSlot();
+                timeSlot.setStartDate(importLine.getStartDate());
+                timeSlot = this.timeSlotRepository.save(timeSlot);
+                System.out.println(timeSlot);
+            }
+        }
     }
 }
