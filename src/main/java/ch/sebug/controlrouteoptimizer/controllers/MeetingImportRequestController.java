@@ -3,6 +3,7 @@ package ch.sebug.controlrouteoptimizer.controllers;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import ch.sebug.controlrouteoptimizer.ShelterConverter;
 import ch.sebug.controlrouteoptimizer.models.MapResult;
+import ch.sebug.controlrouteoptimizer.models.MeetingImportLine;
 import ch.sebug.controlrouteoptimizer.models.RouteRequest;
 import ch.sebug.controlrouteoptimizer.models.Shelter;
 import ch.sebug.controlrouteoptimizer.repositories.ShelterRepository;
@@ -71,6 +73,7 @@ public class MeetingImportRequestController {
 
     private void importMeetings(Sheet sheet) {
         int idx = 0;
+        ArrayList<MeetingImportLine> importLines = new ArrayList<>();
         for (Row row : sheet) {
             if (idx == 0) {
                 idx += 1;
@@ -78,12 +81,17 @@ public class MeetingImportRequestController {
             }
             idx += 1;
             int j = 0;
+            MeetingImportLine importLine = new MeetingImportLine();
             for (Cell c : row) {
                 if (j == 1) {
-                    System.out.println(c.getDateCellValue());
+                    importLine.setStartDate(c.getDateCellValue());
                 }
                 j += 1;
             }
+            if (importLine.getStartDate() != null) {
+                importLines.add(importLine);
+            }
         }
+        System.out.println("Meeting import lines length " + importLines.size());
     }
 }
