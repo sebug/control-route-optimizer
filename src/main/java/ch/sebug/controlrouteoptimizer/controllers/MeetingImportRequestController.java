@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -76,7 +77,13 @@ public class MeetingImportRequestController {
                 continue;
             }
             idx += 1;
-            System.out.println(row);
+            int j = 0;
+            for (Cell c : row) {
+                if (j == 1) {
+                    System.out.println(c.getDateCellValue());
+                }
+                j += 1;
+            }
         }
     }
 }
