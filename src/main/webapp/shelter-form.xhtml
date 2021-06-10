@@ -10,6 +10,8 @@
         <h:form id="shelterForm">
             <p:panel header="Shelter Details">
                 <h:panelGrid columns="1">
+                    <p:outputLabel for="number" value="Number: " />
+                    <p:inputText id="number" value="#{shelterController.shelter.number}" />
                     <p:outputLabel for="name" value="Name: " />
                     <p:inputText id="name" value="#{shelterController.shelter.name}" />
                     <p:outputLabel for="street" value="Street: " />

@@ -32,6 +32,9 @@ public class Shelter {
     private String country;
 
     @Column
+    private String number;
+
+    @Column
     private Long timeSlotId;
 
     public String getShortAddressString() {
