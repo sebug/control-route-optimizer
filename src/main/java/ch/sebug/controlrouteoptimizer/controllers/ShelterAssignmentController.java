@@ -178,8 +178,9 @@ public class ShelterAssignmentController {
                 assignmentViewModels.put(team.getId(), assignmentViewModel);
             }
             for (ShelterAssignmentViewModel assignmentViewModel : assignmentViewModels.values()) {
+                Shelter previousShelter = previousShelters.getOrDefault(assignmentViewModel.getTeamId(), null);
+
                 if (assignmentViewModel.getShelterId() == null) {
-                    Shelter previousShelter = previousShelters.getOrDefault(assignmentViewModel.getTeamId(), null);
                     Shelter chosenShelter = determineNextShelter(previousShelter, unusedTimeSlotShelters);
                     if (chosenShelter != null) {
                         assignmentViewModel.setShelterId(chosenShelter.getId());
@@ -187,6 +188,12 @@ public class ShelterAssignmentController {
                         previousShelters.put(assignmentViewModel.getTeamId(), chosenShelter);
                         unusedTimeSlotShelters.remove(chosenShelter);
                     }
+                }
+
+                if (previousShelter != null && assignmentViewModel.getShelterId() != null) {
+                    assignmentViewModel.setRouteLink("/routeRequest?fromShelterId=" +
+                        previousShelter.getId() + "&toShelterId=" +
+                        assignmentViewModel.getShelterId());
                 }
             }
             line.setAssignments(assignmentViewModels);
