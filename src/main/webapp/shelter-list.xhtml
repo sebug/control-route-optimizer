@@ -21,6 +21,11 @@
                             <f:facet name="header">Name</f:facet>
                             <h:outputText value="#{shelter.name}" />
                         </p:column>
+
+                        <p:column>
+                            <f:facet name="header">Actions</f:facet>
+                            <p:link href="#{'/shelter?shelterId='.concat(shelter.id)}" value="Edit" />
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
