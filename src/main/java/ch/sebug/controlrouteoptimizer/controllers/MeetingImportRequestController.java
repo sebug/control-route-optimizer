@@ -133,8 +133,39 @@ public class MeetingImportRequestController {
                 timeSlot = new TimeSlot();
                 timeSlot.setStartDate(importLine.getStartDate());
                 timeSlot = this.timeSlotRepository.save(timeSlot);
-                System.out.println(timeSlot);
             }
+            Shelter shelter = new Shelter();
+            shelter.setName(importLine.getFirstName() + " " + importLine.getName());
+            shelter.setNumber(importLine.getShelterNumber());
+            shelter.setCountry("CH"); // yes, fork me
+            shelter.setStreet(importLine.getStreet());
+            shelter.setCity(importLine.getCity());
+            shelter.setZip(determineZip(importLine.getCity()));
+            shelter.setTimeSlotId(timeSlot.getId());
+
+            shelterRepository.save(shelter);
         }
+    }
+
+    private String determineZip(String city) {
+        if (city == null) {
+            return null;
+        }
+        String lc = city.toLowerCase();
+        if (lc.indexOf("versoix") >= 0) {
+            return "1290";
+        } else if (lc.indexOf("grand-saconnex") >= 0) {
+            return "1218";
+        } else if (lc.indexOf("bellevue") >= 0) {
+            return "1293";
+        } else if (lc.indexOf("collex") >= 0) {
+            return "1293";
+        } else if (lc.indexOf("genthod") >= 0) {
+            return "1294";
+        } else if (lc.indexOf("pregny") >= 0) {
+            return "1292";
+        }
+
+        return null;
     }
 }
