@@ -35,3 +35,5 @@ build/
 .vscode/
 
 V0006__sample_data.sql
+compose/variables.env
+
