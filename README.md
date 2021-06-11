@@ -16,6 +16,16 @@ You'll need a Bing Maps key, to be stored in the environment variable CONTROL_RO
 
 ## Next steps
 If we actually want to use it, we have to import the shelter locations from Abri 2000
-and the meeting requests from our self-schedule platform. We *could* print the assignment
-directly on the control form, but those are normally printed in advance (until such time as
-the control form is fully digital as well).
+to ensure correct addresses with the already imported meeting requests from our self-schedule platform. We'll also have to better optimize for the fact that we normally have less cars
+than teams - Idea there would be to pick the n closest addresses for a car containing n
+teams and then give it to them either randomly or by optimizing walking distance.
+
+## Internal Deployment
+A very unoptimized Docker image is built from the sources (there were some issues with the
+WEB-INF folder and the files contained there being part of the run that I haven't figured
+out how to package yet).
+
+In the compose folder you'll find a docker-compose.yml file. put your CONTROL_ROUTE_OPTIMIZER_BINGMAPS_KEY in the variables.env file and then docker-compose up and
+you can access it internally on your-openmediavault-ip-address:9095 .
+
+
