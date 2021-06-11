@@ -1,7 +1,7 @@
 version: '3'
 services:
     controlrouteoptimizer:
-        image: sebug/control-route-optimizer:651
+        image: sebug/control-route-optimizer:655
         ports:
             - 9095:8080
         env_file:
