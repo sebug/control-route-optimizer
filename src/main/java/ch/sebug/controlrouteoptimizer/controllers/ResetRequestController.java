@@ -57,7 +57,12 @@ public class ResetRequestController {
         }
 
         public String resetData() {
-            System.out.println("Todo: reset");
+            this.shelterAssignmentRepository.deleteAll();
+            this.shelterRepository.deleteAll();
+            this.timeSlotRepository.deleteAll();
+            if (this.resetRequest.isDeleteTeams()) {
+                this.teamRepository.deleteAll();
+            }
             return "/team-list.xhtml?faces-redirect=true";
         }
 }
