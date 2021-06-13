@@ -34,6 +34,6 @@ build/
 ### VS Code ###
 .vscode/
 
-V0006__sample_data.sql
+V0007__sample_data.sql
 compose/variables.env
 
